@@ -9,6 +9,8 @@ namespace PeterLeslieMorris.Correlation
 
 		private CorrelationId() { }
 
+		public static bool HasValue => Value != null;
+
 		public static string Value
 		{
 			get => AsyncLocalValue.Value;

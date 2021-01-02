@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeterLeslieMorris.Correlation.Http", "PeterLeslieMorris.Correlation.Http\PeterLeslieMorris.Correlation.Http.csproj", "{586ED1E8-E028-4754-B7D4-391A4976DBC7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeterLeslieMorris.Correlation.HttpClient", "PeterLeslieMorris.Correlation.HttpClient\PeterLeslieMorris.Correlation.HttpClient.csproj", "{3558BED7-CB97-4461-961A-3B61AC9FA0C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,10 +36,10 @@ Global
 		{35282EE1-EF84-49D1-9AC7-09958D88FC03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35282EE1-EF84-49D1-9AC7-09958D88FC03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35282EE1-EF84-49D1-9AC7-09958D88FC03}.Release|Any CPU.Build.0 = Release|Any CPU
-		{586ED1E8-E028-4754-B7D4-391A4976DBC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{586ED1E8-E028-4754-B7D4-391A4976DBC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{586ED1E8-E028-4754-B7D4-391A4976DBC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{586ED1E8-E028-4754-B7D4-391A4976DBC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3558BED7-CB97-4461-961A-3B61AC9FA0C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3558BED7-CB97-4461-961A-3B61AC9FA0C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3558BED7-CB97-4461-961A-3B61AC9FA0C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3558BED7-CB97-4461-961A-3B61AC9FA0C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -21,7 +21,8 @@ namespace PeterLeslieMorris.Correlation.ServiceBus.Listeners
 			switch (@event.Key)
 			{
 				case "Microsoft.Azure.ServiceBus.Send.Start":
-					SetMessagesCorrelationIds(@event.Value);
+					if (CorrelationId.HasValue)
+						SetMessagesCorrelationIds(@event.Value);
 					break;
 
 				case "Microsoft.Azure.ServiceBus.Process.Start":

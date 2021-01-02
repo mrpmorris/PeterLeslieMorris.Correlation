@@ -1,13 +1,13 @@
 ﻿using PeterLeslieMorris.Correlation.ServiceBus.Listeners;
 using System.Diagnostics;
 
-namespace PeterLeslieMorris.Correlation.ServiceBus
+namespace PeterLeslieMorris.Correlation
 {
 	public static class CorrelationIdServiceBusExtensions
 	{
 		private static bool Installed;
 
-		public static CorrelationId FromServiceBus(this CorrelationId instance)
+		public static CorrelationId UseServiceBus(this CorrelationId instance)
 		{
 			if (!Installed)
 				Install();

@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\PeterLeslieMorris.Correlation\PeterLeslieMorris.Correlation.csproj" />
+  </ItemGroup>
+</Project>
