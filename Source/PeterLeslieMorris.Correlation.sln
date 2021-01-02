@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeterLeslieMorris.Correlation", "PeterLeslieMorris.Correlation\PeterLeslieMorris.Correlation.csproj", "{BEE147D5-0CED-4D6E-95AE-E2FF9B2446B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PeterLeslieMorris.Correlation", "PeterLeslieMorris.Correlation\PeterLeslieMorris.Correlation.csproj", "{BEE147D5-0CED-4D6E-95AE-E2FF9B2446B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2D75ADEE-7D1A-46A0-82FF-A347DD473159}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeterLeslieMorris.Correlation.Tests", "..\Tests\PeterLeslieMorris.Correlation.Tests\PeterLeslieMorris.Correlation.Tests.csproj", "{369C2D2F-6C96-42E9-9BA4-084B6451EE64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +19,16 @@ Global
 		{BEE147D5-0CED-4D6E-95AE-E2FF9B2446B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEE147D5-0CED-4D6E-95AE-E2FF9B2446B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEE147D5-0CED-4D6E-95AE-E2FF9B2446B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{369C2D2F-6C96-42E9-9BA4-084B6451EE64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{369C2D2F-6C96-42E9-9BA4-084B6451EE64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{369C2D2F-6C96-42E9-9BA4-084B6451EE64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{369C2D2F-6C96-42E9-9BA4-084B6451EE64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{369C2D2F-6C96-42E9-9BA4-084B6451EE64} = {2D75ADEE-7D1A-46A0-82FF-A347DD473159}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B7431C1F-D75C-4F70-B629-92E06A9EBA77}
