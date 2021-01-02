@@ -18,18 +18,15 @@ namespace PeterLeslieMorris.Correlation.ServiceBus.Listeners
 
 		public void OnNext(KeyValuePair<string, object> @event)
 		{
-			if (CorrelationId.Value != null)
+			switch (@event.Key)
 			{
-				switch (@event.Key)
-				{
-					case "Microsoft.Azure.ServiceBus.Send.Start":
-						SetMessagesCorrelationIds(@event.Value);
-						break;
+				case "Microsoft.Azure.ServiceBus.Send.Start":
+					SetMessagesCorrelationIds(@event.Value);
+					break;
 
-					case "Microsoft.Azure.ServiceBus.Process.Start":
-						GetCorrelationIdFromMessage(@event.Value);
-						break;
-				}
+				case "Microsoft.Azure.ServiceBus.Process.Start":
+					GetCorrelationIdFromMessage(@event.Value);
+					break;
 			}
 		}
 
@@ -44,7 +41,8 @@ namespace PeterLeslieMorris.Correlation.ServiceBus.Listeners
 		{
 			var messages = GetMessages(eventData);
 			foreach (Message message in messages)
-				message.CorrelationId = message.CorrelationId ?? CorrelationId.Value;
+				if (message.CorrelationId == null)
+					message.CorrelationId = CorrelationId.Value;
 		}
 
 		private static Message GetMessage(object eventData)
