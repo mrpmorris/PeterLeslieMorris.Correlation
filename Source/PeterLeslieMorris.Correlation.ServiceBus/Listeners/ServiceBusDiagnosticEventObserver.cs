@@ -26,6 +26,8 @@ namespace PeterLeslieMorris.Correlation.ServiceBus.Listeners
 					break;
 
 				case "Microsoft.Azure.ServiceBus.Process.Start":
+					// Set even if CorrelationId.HasValue, so we can throw an exception
+					// if the value has changed
 					GetCorrelationIdFromMessage(@event.Value);
 					break;
 			}

@@ -7,7 +7,7 @@ namespace PeterLeslieMorris.Correlation
 	{
 		private static bool Installed;
 
-		public static CorrelationId UseHttpClient(this CorrelationId instance)
+		public static CorrelationId AddHttpClient(this CorrelationId instance)
 		{
 			if (!Installed)
 				Install();

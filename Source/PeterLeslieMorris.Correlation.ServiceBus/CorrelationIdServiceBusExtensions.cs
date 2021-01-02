@@ -7,7 +7,7 @@ namespace PeterLeslieMorris.Correlation
 	{
 		private static bool Installed;
 
-		public static CorrelationId UseServiceBus(this CorrelationId instance)
+		public static CorrelationId AddServiceBus(this CorrelationId instance)
 		{
 			if (!Installed)
 				Install();
