@@ -1,5 +1,6 @@
 <Project>
     <PropertyGroup>
+		<TargetFrameworks>netcoreapp3.1</TargetFrameworks>
 
         <Version>1.0.0</Version>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>

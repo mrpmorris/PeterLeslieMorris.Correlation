@@ -2,9 +2,12 @@
 
 namespace PeterLeslieMorris.Correlation
 {
-	public static class CorrelationId
+	public sealed class CorrelationId
 	{
+		public static CorrelationId Populate { get; }
 		private readonly static AsyncLocal<string> AsyncLocalValue = new AsyncLocal<string>();
+
+		private CorrelationId() { }
 
 		public static string Value
 		{
