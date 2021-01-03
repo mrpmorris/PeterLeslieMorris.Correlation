@@ -7,7 +7,7 @@ namespace PeterLeslieMorris.Correlation.HttpClient.Listeners
 {
 	class HttpClientDiagnosticEventObserver : IObserver<KeyValuePair<string, object>>
 	{
-		private const string XCorrelationId = "X-Correlation-ID";
+		private const string XCorrelationIdHeaderName = "X-Correlation-ID";
 		private delegate HttpRequestMessage RequestPropertyGetterDelegate(object instance);
 		private static RequestPropertyGetterDelegate RequestPropertyGetter;
 
@@ -23,8 +23,8 @@ namespace PeterLeslieMorris.Correlation.HttpClient.Listeners
 		private void SetRequestCorrelationId(object eventData)
 		{
 			HttpRequestMessage requestMessage = GetRequest(eventData);
-			if (!requestMessage.Headers.Contains(XCorrelationId))
-				requestMessage.Headers.Add(XCorrelationId, CorrelationId.Value);
+			if (!requestMessage.Headers.Contains(XCorrelationIdHeaderName))
+				requestMessage.Headers.Add(XCorrelationIdHeaderName, CorrelationId.Value);
 		}
 
 		private static HttpRequestMessage GetRequest(object eventData)
