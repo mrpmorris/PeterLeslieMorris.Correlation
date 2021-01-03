@@ -1,15 +1,14 @@
-﻿using System;
+﻿using PeterLeslieMorris.Correlation.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Reflection;
 
 namespace PeterLeslieMorris.Correlation.HttpClient.Listeners
 {
 	class HttpClientDiagnosticEventObserver : IObserver<KeyValuePair<string, object>>
 	{
 		private const string XCorrelationIdHeaderName = "X-Correlation-ID";
-		private delegate HttpRequestMessage RequestPropertyGetterDelegate(object instance);
-		private static RequestPropertyGetterDelegate RequestPropertyGetter;
+		private static GetObjectPropertyValueDelegate<HttpRequestMessage> GetRequestPropertyValue;
 
 		public void OnCompleted() { }
 		public void OnError(Exception error) { }
@@ -29,15 +28,9 @@ namespace PeterLeslieMorris.Correlation.HttpClient.Listeners
 
 		private static HttpRequestMessage GetRequest(object eventData)
 		{
-			if (RequestPropertyGetter == null)
-				RequestPropertyGetter = CreateRequestFromPropertyDelegate(eventData.GetType());
-			return RequestPropertyGetter(eventData);
-		}
-
-		private static RequestPropertyGetterDelegate CreateRequestFromPropertyDelegate(Type type)
-		{
-			MethodInfo propertyGetter = type.GetProperty("Request").GetGetMethod();
-			return (RequestPropertyGetterDelegate)Delegate.CreateDelegate(type, propertyGetter);
+			if (GetRequestPropertyValue == null)
+				GetRequestPropertyValue = GetObjectPropertyValueDelegateFactory.Create<HttpRequestMessage>(eventData.GetType(), "Request");
+			return GetRequestPropertyValue(eventData);
 		}
 	}
 }

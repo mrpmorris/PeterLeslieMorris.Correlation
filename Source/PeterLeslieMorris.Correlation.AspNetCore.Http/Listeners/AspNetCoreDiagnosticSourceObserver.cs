@@ -15,7 +15,7 @@ namespace PeterLeslieMorris.Correlation.AspNetCore.Http.Listeners
 
 		public void OnNext(DiagnosticListener listener)
 		{
-			if (listener.Name == "Microsoft.AspNetCore.Hosting.HttpRequestIn.Start")
+			if (listener.Name == "Microsoft.AspNetCore")
 				listener.Subscribe(new AspNetCoreDiagnosticEventObserver());
 		}
 	}

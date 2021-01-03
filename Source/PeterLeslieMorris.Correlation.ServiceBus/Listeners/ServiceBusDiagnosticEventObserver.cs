@@ -1,17 +1,14 @@
 ﻿using Microsoft.Azure.ServiceBus;
+using PeterLeslieMorris.Correlation.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace PeterLeslieMorris.Correlation.ServiceBus.Listeners
 {
 	class ServiceBusDiagnosticEventObserver : IObserver<KeyValuePair<string, object>>
 	{
-		private delegate Message MessagePropertyGetterDelegate(object instance);
-		private delegate Message[] MessagesPropertyGetterDelegate(object instance);
-
-		private static MessagePropertyGetterDelegate MessagePropertyGetter;
-		private static MessagesPropertyGetterDelegate MessagesPropertyGetter;
+		private static GetObjectPropertyValueDelegate<Message> GetMessagePropertyValue;
+		private static GetObjectPropertyValueDelegate<IEnumerable<Message>> GetMessagesPropertyValue;
 
 		public void OnCompleted() { }
 		public void OnError(Exception error) { }
@@ -52,28 +49,16 @@ namespace PeterLeslieMorris.Correlation.ServiceBus.Listeners
 
 		private static Message GetMessage(object eventData)
 		{
-			if (MessagePropertyGetter == null)
-				MessagePropertyGetter = CreateGetMessageFromPropertyDelegate(eventData.GetType());
-			return MessagePropertyGetter(eventData);
+			if (GetMessagePropertyValue == null)
+				GetMessagePropertyValue = GetObjectPropertyValueDelegateFactory.Create<Message>(eventData.GetType(), "Message");
+			return GetMessagePropertyValue(eventData);
 		}
 
-		private static MessagePropertyGetterDelegate CreateGetMessageFromPropertyDelegate(Type type)
+		private static IEnumerable<Message> GetMessages(object eventData)
 		{
-			MethodInfo propertyGetter = type.GetProperty("Message").GetGetMethod();
-			return (MessagePropertyGetterDelegate)Delegate.CreateDelegate(type, propertyGetter);
-		}
-
-		private static Message[] GetMessages(object eventData)
-		{
-			if (MessagesPropertyGetter == null)
-				MessagesPropertyGetter = CreateGetMessagesFromPropertyDelegate(eventData.GetType());
-			return MessagesPropertyGetter(eventData);
-		}
-
-		private static MessagesPropertyGetterDelegate CreateGetMessagesFromPropertyDelegate(Type type)
-		{
-			MethodInfo propertyGetter = type.GetProperty("Messages").GetGetMethod();
-			return (MessagesPropertyGetterDelegate)Delegate.CreateDelegate(type, propertyGetter);
+			if (GetMessagesPropertyValue == null)
+				GetMessagesPropertyValue = GetObjectPropertyValueDelegateFactory.Create<IEnumerable<Message>>(eventData.GetType(), "Messages");
+			return GetMessagesPropertyValue(eventData);
 		}
 	}
 }

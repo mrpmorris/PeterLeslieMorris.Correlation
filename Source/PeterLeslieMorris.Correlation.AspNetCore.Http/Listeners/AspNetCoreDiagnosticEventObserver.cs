@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 
@@ -13,15 +14,15 @@ namespace PeterLeslieMorris.Correlation.AspNetCore.Http.Listeners
 
 		public void OnNext(KeyValuePair<string, object> @event)
 		{
-			if (@event.Key == "System.Net.Http.HttpRequestOut.Start" && CorrelationId.HasValue)
+			if (@event.Key == "Microsoft.AspNetCore.Hosting.HttpRequestIn.Start" && CorrelationId.HasValue)
 				SetRequestCorrelationId((HttpContext)@event.Value);
 		}
 
 		private void SetRequestCorrelationId(HttpContext context)
 		{
 			HttpRequest request = context.Request;
-			if (!request.Headers.ContainsKey(XCorrelationIdHeaderName))
-				request.Headers.Add(XCorrelationIdHeaderName, CorrelationId.Value);
+			if (request.Headers.TryGetValue(XCorrelationIdHeaderName, out StringValues id))
+				CorrelationId.Value = id;
 		}
 	}
 }
