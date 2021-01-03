@@ -10,11 +10,18 @@ namespace PeterLeslieMorris.Correlation.Tests.CorrelationIdTests.ValueTests
 	public class ValueTests
 	{
 		[Fact]
-		public void WhenReplacingNullValue_ThenValueIsSetCorrectly()
+		public void WhenReplacingUniqueDefaultValueWithNull_ThenSetsValueToNull()
 		{
 			CorrelationId.Value = null;
-			CorrelationId.Value = "Hello";
-			Assert.Equal("Hello", CorrelationId.Value);
+			Assert.Null(CorrelationId.Value);
+			Assert.False(CorrelationId.HasValue);
+		}
+
+		[Fact]
+		public void WhenNoValueHasBeenSet_ThenReturnsDefaultUniqueValue()
+		{
+			Assert.NotNull(CorrelationId.Value);
+			Assert.True(CorrelationId.HasValue);
 		}
 
 		[Fact]
@@ -64,7 +71,6 @@ namespace PeterLeslieMorris.Correlation.Tests.CorrelationIdTests.ValueTests
 
 			Task task1 = testCode();
 			Task task2 = testCode();
-
 
 			await Task.WhenAll(task1, task2).ConfigureAwait(false);
 		}

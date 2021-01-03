@@ -6,7 +6,7 @@ namespace PeterLeslieMorris.Correlation
 	public sealed class CorrelationId
 	{
 		public static CorrelationId Pipeline { get; }
-		private readonly static AsyncLocal<string> AsyncLocalValue = new AsyncLocal<string>();
+		private readonly static AsyncLocal<CorrelationIdData> Data = new AsyncLocal<CorrelationIdData>();
 
 		private CorrelationId() { }
 
@@ -14,14 +14,23 @@ namespace PeterLeslieMorris.Correlation
 
 		public static string Value
 		{
-			get => AsyncLocalValue.Value;
-			set => AsyncLocalValue.Value = value;
+			get
+			{
+				// If value was not explicitly set to null, then ensure result is not null
+				GenerateUniqueDefaultValue();
+				return Data.Value.Id;
+			}
+			set
+			{
+				Data.Value = new CorrelationIdData(id: value, valueWasSetExplicitly: true);
+			}
 		}
 
-		public static void GenerateIfNull()
+		private static void GenerateUniqueDefaultValue()
 		{
-			if (Value == null)
-				Value = Guid.NewGuid().ToString();
+			CorrelationIdData data = Data.Value;
+			if (data.Id == null && !data.ValueWasSetExplicitly)
+				Data.Value = new CorrelationIdData(id: Guid.NewGuid().ToString(), valueWasSetExplicitly: false);
 		}
 	}
 }
