@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 
 namespace PeterLeslieMorris.Correlation
 {
@@ -15,6 +16,12 @@ namespace PeterLeslieMorris.Correlation
 		{
 			get => AsyncLocalValue.Value;
 			set => AsyncLocalValue.Value = value;
+		}
+
+		public static void GenerateIfNull()
+		{
+			if (Value == null)
+				Value = Guid.NewGuid().ToString();
 		}
 	}
 }
