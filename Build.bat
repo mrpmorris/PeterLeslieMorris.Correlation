@@ -1,0 +1,1 @@
+dotnet build Source\PeterLeslieMorris.Correlation.sln -c Release
