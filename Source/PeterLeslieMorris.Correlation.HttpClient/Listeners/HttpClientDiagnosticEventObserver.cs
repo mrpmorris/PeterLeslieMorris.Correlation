@@ -16,7 +16,7 @@ namespace PeterLeslieMorris.Correlation.HttpClient.Listeners
 
 		public void OnNext(KeyValuePair<string, object> @event)
 		{
-			if (@event.Key == "System.Net.Http.HttpRequestOut.Start" & CorrelationId.HasValue)
+			if (@event.Key == "System.Net.Http.HttpRequestOut.Start" && CorrelationId.HasValue)
 				SetRequestCorrelationId(@event.Value);
 		}
 

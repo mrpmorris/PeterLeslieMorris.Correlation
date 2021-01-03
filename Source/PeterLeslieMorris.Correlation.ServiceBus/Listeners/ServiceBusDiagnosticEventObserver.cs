@@ -21,7 +21,6 @@ namespace PeterLeslieMorris.Correlation.ServiceBus.Listeners
 			switch (@event.Key)
 			{
 				case "Microsoft.Azure.ServiceBus.Send.Start":
-					if (CorrelationId.HasValue)
 						SetMessagesCorrelationIds(@event.Value);
 					break;
 
@@ -42,6 +41,9 @@ namespace PeterLeslieMorris.Correlation.ServiceBus.Listeners
 
 		private static void SetMessagesCorrelationIds(object eventData)
 		{
+			if (!CorrelationId.HasValue)
+				return;
+
 			var messages = GetMessages(eventData);
 			foreach (Message message in messages)
 				if (message.CorrelationId == null)
