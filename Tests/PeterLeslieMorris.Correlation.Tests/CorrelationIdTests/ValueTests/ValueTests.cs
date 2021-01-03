@@ -12,25 +12,9 @@ namespace PeterLeslieMorris.Correlation.Tests.CorrelationIdTests.ValueTests
 		[Fact]
 		public void WhenReplacingNullValue_ThenValueIsSetCorrectly()
 		{
+			CorrelationId.Value = null;
 			CorrelationId.Value = "Hello";
 			Assert.Equal("Hello", CorrelationId.Value);
-		}
-
-		[Fact]
-		public void WhenReplacingNonNullValueWithDifferentValue_ThenExceptionIsThrown()
-		{
-			CorrelationId.Value = "Hello";
-			var exception = Assert.Throws<CorrelationIdAlreadySetException>(() => CorrelationId.Value = "Bye");
-			Assert.Equal("Hello", exception.ExistingValue);
-			Assert.Equal("Bye", exception.NewValue);
-		}
-
-
-		[Fact]
-		public void WhenReplacingNonNullValueWithSameValue_ThenNoExceptionIsThrown()
-		{
-			CorrelationId.Value = "Hello";
-			CorrelationId.Value = "Hello";
 		}
 
 		[Fact]
@@ -64,6 +48,25 @@ namespace PeterLeslieMorris.Correlation.Tests.CorrelationIdTests.ValueTests
 			startSignal.Set();
 			while (numberOfTasksExecuting > 0)
 				Thread.Sleep(50);
+		}
+
+		[Fact]
+		public async Task WhenAwaitingMultipleTasks_ThenTheSameCorrelationIdIsUsed()
+		{
+			string expectedId = "TheValue";
+			CorrelationId.Value = expectedId;
+
+			async Task testCode()
+			{
+				await Task.Yield();
+				Assert.Equal(expectedId, CorrelationId.Value);
+			}
+
+			Task task1 = testCode();
+			Task task2 = testCode();
+
+
+			await Task.WhenAll(task1, task2).ConfigureAwait(false);
 		}
 	}
 }

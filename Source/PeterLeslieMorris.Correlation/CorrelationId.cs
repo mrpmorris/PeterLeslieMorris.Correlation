@@ -14,13 +14,7 @@ namespace PeterLeslieMorris.Correlation
 		public static string Value
 		{
 			get => AsyncLocalValue.Value;
-			set
-			{
-				string existingValue = Value;
-				if (existingValue != null && existingValue != value)
-					throw new CorrelationIdAlreadySetException(existingValue: existingValue, newValue: value);
-				AsyncLocalValue.Value = value;
-			}
+			set => AsyncLocalValue.Value = value;
 		}
 	}
 }
