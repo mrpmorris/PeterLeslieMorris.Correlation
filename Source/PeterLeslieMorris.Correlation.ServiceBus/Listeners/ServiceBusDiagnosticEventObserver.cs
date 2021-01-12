@@ -32,15 +32,11 @@ namespace PeterLeslieMorris.Correlation.ServiceBus.Listeners
 		private static void GetCorrelationIdFromMessage(object eventData)
 		{
 			Message message = GetMessage(eventData);
-			if (message.CorrelationId != null)
-				CorrelationId.Value = message.CorrelationId;
+			CorrelationId.Value = message.CorrelationId;
 		}
 
 		private static void SetMessagesCorrelationIds(object eventData)
 		{
-			if (!CorrelationId.HasValue)
-				return;
-
 			var messages = GetMessages(eventData);
 			foreach (Message message in messages)
 				if (message.CorrelationId == null)

@@ -1,14 +1,14 @@
-﻿namespace PeterLeslieMorris.Correlation
+﻿using System;
+
+namespace PeterLeslieMorris.Correlation
 {
 	internal struct CorrelationIdData
 	{
 		public string Id { get; }
-		public bool ValueWasSetExplicitly { get; }
 
-		public CorrelationIdData(string id, bool valueWasSetExplicitly)
+		public CorrelationIdData(string id)
 		{
 			Id = id;
-			ValueWasSetExplicitly = valueWasSetExplicitly;
 		}
 	}
 }

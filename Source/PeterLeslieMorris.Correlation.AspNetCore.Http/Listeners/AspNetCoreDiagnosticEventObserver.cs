@@ -14,7 +14,7 @@ namespace PeterLeslieMorris.Correlation.AspNetCore.Http.Listeners
 
 		public void OnNext(KeyValuePair<string, object> @event)
 		{
-			if (@event.Key == "Microsoft.AspNetCore.Hosting.HttpRequestIn.Start" && CorrelationId.HasValue)
+			if (@event.Key == "Microsoft.AspNetCore.Hosting.HttpRequestIn.Start")
 				SetRequestCorrelationId((HttpContext)@event.Value);
 		}
 
@@ -23,6 +23,8 @@ namespace PeterLeslieMorris.Correlation.AspNetCore.Http.Listeners
 			HttpRequest request = context.Request;
 			if (request.Headers.TryGetValue(XCorrelationIdHeaderName, out StringValues id))
 				CorrelationId.Value = id;
+			else
+				CorrelationId.Value = null;
 		}
 	}
 }

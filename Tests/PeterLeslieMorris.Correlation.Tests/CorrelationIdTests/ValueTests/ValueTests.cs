@@ -10,18 +10,18 @@ namespace PeterLeslieMorris.Correlation.Tests.CorrelationIdTests.ValueTests
 	public class ValueTests
 	{
 		[Fact]
-		public void WhenReplacingUniqueDefaultValueWithNull_ThenSetsValueToNull()
+		public void WhenReplacingUniqueValueWithNull_ThenSetsValueToNewGuid()
 		{
+			string originalId = CorrelationId.Value;
 			CorrelationId.Value = null;
-			Assert.Null(CorrelationId.Value);
-			Assert.False(CorrelationId.HasValue);
+			Assert.NotNull(CorrelationId.Value);
+			Assert.NotEqual(originalId, CorrelationId.Value);
 		}
 
 		[Fact]
 		public void WhenNoValueHasBeenSet_ThenReturnsDefaultUniqueValue()
 		{
 			Assert.NotNull(CorrelationId.Value);
-			Assert.True(CorrelationId.HasValue);
 		}
 
 		[Fact]

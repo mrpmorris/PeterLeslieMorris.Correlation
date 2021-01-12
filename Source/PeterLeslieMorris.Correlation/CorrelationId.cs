@@ -10,27 +10,30 @@ namespace PeterLeslieMorris.Correlation
 
 		private CorrelationId() { }
 
-		public static bool HasValue => Value != null;
-
 		public static string Value
 		{
 			get
 			{
 				// If value was not explicitly set to null, then ensure result is not null
-				GenerateUniqueDefaultValue();
+				if (NeedsGeneratedDefaultValue(Data.Value.Id))
+					GenerateUniqueDefaultValue();
 				return Data.Value.Id;
 			}
 			set
 			{
-				Data.Value = new CorrelationIdData(id: value, valueWasSetExplicitly: true);
+				if (NeedsGeneratedDefaultValue(value))
+					GenerateUniqueDefaultValue();
+				else
+					Data.Value = new CorrelationIdData(value);
 			}
 		}
 
 		private static void GenerateUniqueDefaultValue()
 		{
-			CorrelationIdData data = Data.Value;
-			if (data.Id == null && !data.ValueWasSetExplicitly)
-				Data.Value = new CorrelationIdData(id: Guid.NewGuid().ToString(), valueWasSetExplicitly: false);
+			Data.Value = new CorrelationIdData(Guid.NewGuid().ToString());
 		}
+
+		private static bool NeedsGeneratedDefaultValue(string value)
+			=> string.IsNullOrEmpty(value);
 	}
 }
