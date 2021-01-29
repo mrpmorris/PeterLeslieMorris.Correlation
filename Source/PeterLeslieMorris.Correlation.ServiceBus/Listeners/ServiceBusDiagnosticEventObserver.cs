@@ -7,8 +7,9 @@ namespace PeterLeslieMorris.Correlation.ServiceBus.Listeners
 {
 	class ServiceBusDiagnosticEventObserver : IObserver<KeyValuePair<string, object>>
 	{
-		private static GetObjectPropertyValueDelegate<Message> GetMessagePropertyValue;
-		private static GetObjectPropertyValueDelegate<IEnumerable<Message>> GetMessagesPropertyValue;
+		private static GetObjectPropertyValueDelegate<Message> GetMessagePropertyValueFromProcessStart;
+		private static GetObjectPropertyValueDelegate<Message> GetMessagePropertyValueFromProcessSessionStart;
+		private static GetObjectPropertyValueDelegate<IEnumerable<Message>> GetMessagesPropertyValueFromSendStart;
 
 		public void OnCompleted() { }
 		public void OnError(Exception error) { }
@@ -22,39 +23,54 @@ namespace PeterLeslieMorris.Correlation.ServiceBus.Listeners
 					break;
 
 				case "Microsoft.Azure.ServiceBus.Process.Start":
-					// Set even if CorrelationId.HasValue, so we can throw an exception
-					// if the value has changed
-					GetCorrelationIdFromMessage(@event.Value);
+					GetCorrelationIdFromProcessStartMessage(@event.Value);
+					break;
+
+				case "Microsoft.Azure.ServiceBus.ProcessSession.Start":
+					GetCorrelationIdFromProcessSessionStartMessage(@event.Value);
 					break;
 			}
 		}
 
-		private static void GetCorrelationIdFromMessage(object eventData)
+		private static void GetCorrelationIdFromProcessStartMessage(object eventData)
 		{
-			Message message = GetMessage(eventData);
+			Message message = GetMessageFromProcessStart(eventData);
+			CorrelationId.Value = message.CorrelationId;
+		}
+
+		private static void GetCorrelationIdFromProcessSessionStartMessage(object eventData)
+		{
+			Message message = GetMessageFromProcessSessionStart(eventData);
 			CorrelationId.Value = message.CorrelationId;
 		}
 
 		private static void SetMessagesCorrelationIds(object eventData)
 		{
-			var messages = GetMessages(eventData);
+			var messages = GetMessagesFromSendStart(eventData);
 			foreach (Message message in messages)
 				if (message.CorrelationId == null)
 					message.CorrelationId = CorrelationId.Value;
 		}
 
-		private static Message GetMessage(object eventData)
+		private static Message GetMessageFromProcessStart(object eventData)
 		{
-			if (GetMessagePropertyValue == null)
-				GetMessagePropertyValue = GetObjectPropertyValueDelegateFactory.Create<Message>(eventData.GetType(), "Message");
-			return GetMessagePropertyValue(eventData);
+			if (GetMessagePropertyValueFromProcessStart == null)
+				GetMessagePropertyValueFromProcessStart = GetObjectPropertyValueDelegateFactory.Create<Message>(eventData.GetType(), "Message");
+			return GetMessagePropertyValueFromProcessStart(eventData);
 		}
 
-		private static IEnumerable<Message> GetMessages(object eventData)
+		private static Message GetMessageFromProcessSessionStart(object eventData)
 		{
-			if (GetMessagesPropertyValue == null)
-				GetMessagesPropertyValue = GetObjectPropertyValueDelegateFactory.Create<IEnumerable<Message>>(eventData.GetType(), "Messages");
-			return GetMessagesPropertyValue(eventData);
+			if (GetMessagePropertyValueFromProcessSessionStart == null)
+				GetMessagePropertyValueFromProcessSessionStart = GetObjectPropertyValueDelegateFactory.Create<Message>(eventData.GetType(), "Message");
+			return GetMessagePropertyValueFromProcessSessionStart(eventData);
+		}
+
+		private static IEnumerable<Message> GetMessagesFromSendStart(object eventData)
+		{
+			if (GetMessagesPropertyValueFromSendStart == null)
+				GetMessagesPropertyValueFromSendStart = GetObjectPropertyValueDelegateFactory.Create<IEnumerable<Message>>(eventData.GetType(), "Messages");
+			return GetMessagesPropertyValueFromSendStart(eventData);
 		}
 	}
 }
